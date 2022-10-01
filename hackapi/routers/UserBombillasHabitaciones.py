@@ -17,7 +17,7 @@ router = APIRouter(
 
 @router.get('')
 def Obtener_Users(db:Session = Depends(get_db)):
-    data = db.query(models.User).all()
+    data = db.query(models.UserBombillasHabitaciones).all()
     return data
 
 

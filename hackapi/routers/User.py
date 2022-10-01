@@ -29,4 +29,22 @@ def Crear_Users(User:User, db:Session = Depends(get_db)):
     )
     db.add(nuevo_User)
     db.commit()
-    return{"Respuesta":"Habitacion creada correctamente"}
+    return{"Respuesta":"Usuario creado correctamente"}
+
+@router.delete('/{User_Nombre}')
+def Eliminar_User(User_Nombre,  db:Session = Depends(get_db)):
+    data = db.query(models.User).filter(models.User.User_Name == User_Nombre)
+    if not data.first():
+        return {"Respuesta":"Usuario no encontrado"}
+    data.delete(synchronize_session = False)
+    db.commit()
+    return{"Respuesta":"Usuario eleminado correctamente"}
+
+@router.patch('/{User_Nombre}')
+def Actualizar_User(User_Nombre:str, updateUser: UserUpdate, db: Session = Depends(get_db)):
+        data = db.query(models.User).filter(models.User.User_Name == User_Nombre)
+        if not data.first():    
+            return {"Respuesta":"Usuario no encontrada"}
+        data.update(updateUser.dict(exclude_unset= True))
+        db.commit()
+        return {"Respuesta":"Usuario Actualizada Correctamente!"}
