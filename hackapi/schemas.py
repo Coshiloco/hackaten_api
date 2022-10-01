@@ -9,6 +9,7 @@ class Bombilla(BaseModel):
     Color:str
     Brillo:int
     Encendido_Apagado:Boolean
+    Codigo_De_Bombilla = str
     Habitacion_Nombre: str
     
 class UpdateBombilla(BaseModel):
@@ -22,28 +23,32 @@ class ShowBombilla(BaseModel):
     Color:str
     Brillo:int
     Encendido_Apagado:Boolean
+    Codigo_De_Bombilla = str
     Habitacion_Nombre:str
     class Config():
         orm_mode = True
 
 class Habitacion(BaseModel):
     Nombre:str
+    Codigo_De_Habitacion = str
     Bombillas:list[Bombilla]
 
 class UpdateHabitacion(BaseModel):
     Nombre:Optional[str] = None
     
-class ShowHabitacion(BaseModel):
-    Nombre:str
-    Bombillas:list[Bombilla]
-
 class User(BaseModel):
     User_Name:str
     Email:str
     Password:str
-    Cantidad_de_Bombillas:int
-    Cantidad_de_Habitaciones:int
     
     
-
-
+class UserUpdate(BaseModel):
+    User_Name:Optional[str]
+    Email:Optional[str]
+    Password:Optional[str]
+    
+class UserBombillasHabitaciones(BaseModel):
+    Usuario_Id:int
+    Codigo_Habitacion:str
+    Codigo_Bombilla:str
+        

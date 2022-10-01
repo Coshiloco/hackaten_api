@@ -5,7 +5,7 @@ from urllib import response
 from fastapi import APIRouter, Depends
 from hackapi.db import models
 from hackapi.db.database import get_db
-from hackapi.schemas import User
+from hackapi.schemas import User, UserUpdate
 from sqlalchemy.orm import Session
 
 router = APIRouter(
@@ -25,9 +25,7 @@ def Crear_Users(User:User, db:Session = Depends(get_db)):
     nuevo_User = models.User (
         User_Name =  bulb['User_Name'],
         Email = bulb['Email'],
-        Password = bulb['Password'],
-        Cantidad_de_Bombillas = bulb['Cantidad_de_Bombillas'],
-        Cantidad_de_Habitaciones = bulb['Cantidad_de_Habitaciones']
+        Password = bulb['Password']
     )
     db.add(nuevo_User)
     db.commit()

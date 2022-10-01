@@ -10,8 +10,8 @@ class Habitacion(Base):
     id = Column(Integer, unique = True,  autoincrement = True)
     Nombre = Column(String, primary_key = True)
     Codigo_De_Habitacion = Column(String, unique = True)
-    Bombillas = [relationship('Bombilla', backref = 'Habitacion', cascade = 'delete,merge')]
-    UserBombillasHabitaciones = [relationship('UserBombillasHabitaciones', backref = 'Habitacion', cascade = 'delete,merge')]
+    Bombillas = relationship('Bombilla', backref = 'Habitacion', cascade = 'delete,merge')
+    UserBombillasHabitaciones = relationship('UserBombillasHabitaciones', backref = 'Habitacion', cascade = 'delete,merge')
 
 class Bombilla(Base):
     __tablename__ = 'Bombilla'
@@ -21,7 +21,7 @@ class Bombilla(Base):
     Brillo = Column(Integer)
     Encendido_Apagado = Column(Boolean)
     Codigo_De_Bombilla = Column(String, unique = True)
-    UserBombillasHabitaciones = [relationship('UserBombillasHabitaciones', backref = 'Bombilla', cascade = 'delete,merge')]
+    UserBombillasHabitaciones = relationship('UserBombillasHabitaciones', backref = 'Bombilla', cascade = 'delete,merge')
     Habitacion_Nombre= Column(String,  ForeignKey("Habitacion.Nombre", ondelete = 'CASCADE'))   
 
 class User(Base):
@@ -30,9 +30,7 @@ class User(Base):
     User_Name = Column(String)
     Email = Column(String)
     Password = Column(String)
-    Cantidad_de_Bombillas = Column(Integer)
-    Cantidad_de_Habitaciones  = Column(Integer)
-    UserBombillasHabitaciones = [relationship('UserBombillasHabitaciones', backref = 'Users', cascade = 'delete,merge')]
+    UserBombillasHabitaciones = relationship('UserBombillasHabitaciones', backref = 'Users', cascade = 'delete,merge')
 
 class UserBombillasHabitaciones(Base):
     __tablename__ = "UserBombillasHabitaciones"

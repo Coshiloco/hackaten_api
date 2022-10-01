@@ -5,8 +5,7 @@ from urllib import response
 from fastapi import APIRouter, Depends
 from hackapi.db import models
 from hackapi.db.database import get_db
-from hackapi.schemas import (Bombilla, Habitacion, ShowHabitacion,
-                             UpdateHabitacion)
+from hackapi.schemas import Bombilla, Habitacion, UpdateHabitacion
 from sqlalchemy.orm import Session
 
 # ShowHabitacion
@@ -40,7 +39,8 @@ def obtener_habitacionbombilla( Habitacion_Nombre:str , db:Session = Depends(get
 def Crear_Habitacions(Habitacion:Habitacion, db:Session = Depends(get_db)):
     bulb = Habitacion.dict()
     nueva_Habitacion = models.Habitacion(
-        Nombre =  bulb['Nombre']
+        Nombre =  bulb['Nombre'],
+        Codigo_De_Habitacion = bulb['Codigo_De_Habitacion']
     )
     db.add(nueva_Habitacion)
     db.commit()

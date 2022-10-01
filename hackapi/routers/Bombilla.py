@@ -18,9 +18,9 @@ def Obtener_Bombillas(db:Session = Depends(get_db)):
     data = db.query(models.Bombilla).all()
     return data
 
-@router.get('/{bombilla_id}', response_model = ShowBombilla)
-def Bombilla_id(bombilla_id,  db:Session = Depends(get_db)):
-    data = db.query(models.Bombilla).filter(models.Bombilla.id == bombilla_id).first()
+@router.get('/{bombilla_Nombre}', response_model = ShowBombilla)
+def Bombilla_Nombre(bombilla_Nombre,  db:Session = Depends(get_db)):
+    data = db.query(models.Bombilla).filter(models.Bombilla.id == bombilla_Nombre).first()
     if not data:
         return {"Respuesta":"Bombilla no encontrada"}
     return data
@@ -33,7 +33,8 @@ def Crear_Bombillas(bombilla:Bombilla, db:Session = Depends(get_db)):
         Color =  bulb[ 'Color'],
         Brillo = bulb['Brillo'],
         Encendido_Apagado = bulb['Encendido_Apagado'],
-        Habitacion_Nombre = bulb['Habitacion_Nombre'],
+        Codigo_De_Bombilla = bulb['Codigo_De_Bombilla'],
+        Habitacion_Nombre = bulb['Habitacion_Nombre']
     )
     db.add(nueva_bombilla)
     db.commit()
