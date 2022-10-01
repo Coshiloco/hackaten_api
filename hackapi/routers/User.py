@@ -3,6 +3,7 @@ from typing import List
 from urllib import response
 
 from fastapi import APIRouter, Body, Depends
+from hackapi.auth.jwt_bearer import jwtBearer
 from hackapi.auth.jwt_handler import signJWT
 from hackapi.db import models
 from hackapi.db.database import get_db
@@ -20,7 +21,7 @@ def Obtener_Users(db:Session = Depends(get_db)):
     return data
 
 
-@router.post('')
+@router.post('', dependencies=[Depends(jwtBearer())])
 def Crear_Users(User:User, db:Session = Depends(get_db)):
     bulb = User.dict()
     nuevo_User = models.User (
