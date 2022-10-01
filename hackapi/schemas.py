@@ -51,3 +51,7 @@ class UserBombillasHabitaciones(BaseModel):
     Codigo_Habitacion:str
     Codigo_Bombilla:str
         
+class UserBombillasHabitacionesUpdate(BaseModel):
+    Usuario_Id:Optional[int]
+    Codigo_Habitacion:Optional[str]
+    Codigo_Bombilla:Optional[str]
