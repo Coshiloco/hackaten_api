@@ -39,8 +39,8 @@ class ShowHabitacion(BaseModel):
 
 class User(BaseModel):
     User_Name:str
-    Email:EmailStr
-    Password:SecretStr
+    Email:str
+    Password:str
     Cantidad_de_Bombillas:int
     Cantidad_de_Habitaciones:int
     
