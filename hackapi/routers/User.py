@@ -9,11 +9,26 @@ from hackapi.schemas import User
 from sqlalchemy.orm import Session
 
 router = APIRouter(
-    prefix = '/User',
-    tags = ["User"]
+    prefix = '/Users',
+    tags = ["Users"]
 )
 
 @router.get('')
-def Obtener_User(db:Session = Depends(get_db)):
+def Obtener_Users(db:Session = Depends(get_db)):
     data = db.query(models.User).all()
     return data
+
+
+@router.post('')
+def Crear_Users(User:User, db:Session = Depends(get_db)):
+    bulb = User.dict()
+    nuevo_User = models.User (
+        User_Name =  bulb['User_Name'],
+        Email = bulb['Email'],
+        Password = bulb['Password'],
+        Cantidad_de_Bombillas = bulb['Cantidad_de_Bombillas'],
+        Cantidad_de_Habitaciones = bulb['Cantidad_de_Habitaciones']
+    )
+    db.add(nuevo_User)
+    db.commit()
+    return{"Respuesta":"Habitacion creada correctamente"}

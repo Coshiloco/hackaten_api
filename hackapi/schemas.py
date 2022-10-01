@@ -44,23 +44,6 @@ class User(BaseModel):
     Cantidad_de_Bombillas:int
     Cantidad_de_Habitaciones:int
     
-class UserBombillasHabitaciones(BaseModel):
-    Usuario_Id:int
-    Codigo_Habitacion:str
-    Codigo_Bombilla:str
-    
-
-class UserUpdate(BaseModel):
-    User_Name:Optional[str]
-    Email:Optional[EmailStr]
-    Password:Optional[SecretStr]
-    Cantidad_de_Bombillas:Optional[int]
-    Cantidad_de_Habitaciones:Optional[int]
-    
-class UserBombillasHabitacionesUpdate(BaseModel):
-    Usuario_Id:Optional[int]
-    Codigo_Habitacion:Optional[str]
-    Codigo_Bombilla:Optional[str]
     
 
 
