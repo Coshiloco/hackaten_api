@@ -21,7 +21,7 @@ def token_reponse(token: str):
     "access token": token
   }
   
-def signJWT(userID: int):
+def signJWT(userID: str):
   payload = {
     "userID": userID,
     "expiry": time.time() + 600

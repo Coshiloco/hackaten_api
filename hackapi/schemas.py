@@ -37,10 +37,14 @@ class UpdateHabitacion(BaseModel):
     
 class User(BaseModel):
     User_Name:str
-    Email:str
+    Email:EmailStr
     Password:str
     
-    
+
+class UserLogin(BaseModel):
+    Email:EmailStr
+    Password:str
+
 class UserUpdate(BaseModel):
     User_Name:Optional[str]
     Email:Optional[str]
