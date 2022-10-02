@@ -3,6 +3,7 @@ from typing import List
 from urllib import response
 
 from fastapi import APIRouter, Depends
+from hackapi.auth.jwt_bearer import jwtBearer
 from hackapi.db import models
 from hackapi.db.database import get_db
 from hackapi.schemas import Bombilla, Habitacion, UpdateHabitacion
@@ -14,12 +15,12 @@ router = APIRouter(
     prefix = '/Habitacion',
     tags = ["Habitacion"]
 )
-@router.get('')
+@router.get('', dependencies=[Depends(jwtBearer())])
 def Obtener_Habitacion(db:Session = Depends(get_db)):
     data = db.query(models.Habitacion).all()
     return data
 
-@router.get('/{Habitacion_Nombre}')
+@router.get('/{Habitacion_Nombre}', dependencies=[Depends(jwtBearer())])
 def Habitacion_Nombre(Habitacion_Nombre,  db:Session = Depends(get_db)):
     data = db.query(models.Habitacion).filter(models.Habitacion.Nombre == Habitacion_Nombre).first()
     print(data)
@@ -27,7 +28,7 @@ def Habitacion_Nombre(Habitacion_Nombre,  db:Session = Depends(get_db)):
         return {"Respuesta":"Habitacion no encontrada"}
     return data
 
-@router.get('/dsadad/{Habitacion_Nombre}')
+@router.get('/dsadad/{Habitacion_Nombre}', dependencies=[Depends(jwtBearer())])
 def obtener_habitacionbombilla( Habitacion_Nombre:str , db:Session = Depends(get_db)):
     data = db.query(models.Bombilla).filter(models.Bombilla.Habitacion_Nombre == Habitacion_Nombre and models.Habitacion.Nombre == Habitacion_Nombre).all()
     if not data:
@@ -35,7 +36,7 @@ def obtener_habitacionbombilla( Habitacion_Nombre:str , db:Session = Depends(get
     return data
 
 
-@router.post('')
+@router.post('', dependencies=[Depends(jwtBearer())])
 def Crear_Habitacions(Habitacion:Habitacion, db:Session = Depends(get_db)):
     bulb = Habitacion.dict()
     nueva_Habitacion = models.Habitacion(
@@ -47,7 +48,7 @@ def Crear_Habitacions(Habitacion:Habitacion, db:Session = Depends(get_db)):
     return{"Respuesta":"Habitacion creada correctamente"}
 
 
-@router.delete('/{Habitacion_Nombre}')
+@router.delete('/{Habitacion_Nombre}', dependencies=[Depends(jwtBearer())])
 def Eliminar_Habitacion_Nombre(Habitacion_Nombre,  db:Session = Depends(get_db)):
     data = db.query(models.Habitacion).filter(models.Habitacion.Nombre == Habitacion_Nombre)
     if not data.first():
@@ -56,7 +57,7 @@ def Eliminar_Habitacion_Nombre(Habitacion_Nombre,  db:Session = Depends(get_db))
     db.commit()
     return{"Respuesta":"Habitacion eliminada correctamente"}
 
-@router.patch('/{Habitacion_Nombre}')
+@router.patch('/{Habitacion_Nombre}', dependencies=[Depends(jwtBearer())])
 def Actualizar_Habitacion(Habitacion_Nombre:str, updateHabitacion: UpdateHabitacion, db: Session = Depends(get_db)):
         data = db.query(models.Habitacion).filter(models.Habitacion.Nombre == Habitacion_Nombre)
         if not data.first():    

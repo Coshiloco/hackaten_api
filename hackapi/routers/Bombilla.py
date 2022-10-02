@@ -3,6 +3,7 @@ from typing import List
 from urllib import response
 
 from fastapi import APIRouter, Depends
+from hackapi.auth.jwt_bearer import jwtBearer
 from hackapi.db import models
 from hackapi.db.database import get_db
 from hackapi.schemas import Bombilla, ShowBombilla, UpdateBombilla
@@ -13,19 +14,19 @@ router = APIRouter(
     tags = ["Bombilla"]
 )
 
-@router.get('', response_model = List[ShowBombilla])
+@router.get('', dependencies=[Depends(jwtBearer())] ,response_model = List[ShowBombilla])
 def Obtener_Bombillas(db:Session = Depends(get_db)):
     data = db.query(models.Bombilla).all()
     return data
 
-@router.get('/{bombilla_Nombre}', response_model = ShowBombilla)
+@router.get('/{bombilla_Nombre}', dependencies=[Depends(jwtBearer())] , response_model = ShowBombilla)
 def Bombilla_Nombre(bombilla_Nombre,  db:Session = Depends(get_db)):
     data = db.query(models.Bombilla).filter(models.Bombilla.id == bombilla_Nombre).first()
     if not data:
         return {"Respuesta":"Bombilla no encontrada"}
     return data
 
-@router.post('')
+@router.post('', dependencies=[Depends(jwtBearer())])
 def Crear_Bombillas(bombilla:Bombilla, db:Session = Depends(get_db)):
     bulb = bombilla.dict()
     nueva_bombilla = models.Bombilla(
@@ -41,7 +42,7 @@ def Crear_Bombillas(bombilla:Bombilla, db:Session = Depends(get_db)):
     return{"Respuesta":"Bombilla creada correctamente"}
 
 
-@router.delete('/{bombilla_id}')
+@router.delete('/{bombilla_id}', dependencies=[Depends(jwtBearer())])
 def Eliminar_Bombilla_id(bombilla_id,  db:Session = Depends(get_db)):
     data = db.query(models.Bombilla).filter(models.Bombilla.id == bombilla_id)
     if not data.first():
@@ -50,7 +51,7 @@ def Eliminar_Bombilla_id(bombilla_id,  db:Session = Depends(get_db)):
     db.commit()
     return{"Respuesta":"Bombilla eliminada correctamente"}
 
-@router.patch('/{bombilla_id}')
+@router.patch('/{bombilla_id}', dependencies=[Depends(jwtBearer())])
 def Actualizar_Bombilla(user_id :int, updatebombilla: UpdateBombilla, db: Session = Depends(get_db)):
         data = db.query(models.Bombilla).filter(models.Bombilla.id == user_id)
         if not data.first():    

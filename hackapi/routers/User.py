@@ -15,7 +15,7 @@ router = APIRouter(
     tags = ["Users"]
 )
 
-@router.get('')
+@router.get('', dependencies=[Depends(jwtBearer())])
 def Obtener_Users(db:Session = Depends(get_db)):
     data = db.query(models.User).all()
     return data
@@ -62,7 +62,7 @@ def user_login(user: UserLogin, db:Session = Depends(get_db)):
             "error":"Invalid login details!"
         }
 
-@router.delete('/{User_Nombre}')
+@router.delete('/{User_Nombre}', dependencies=[Depends(jwtBearer())])
 def Eliminar_User(User_Nombre,  db:Session = Depends(get_db)):
     data = db.query(models.User).filter(models.User.User_Name == User_Nombre)
     if not data.first():
@@ -71,7 +71,7 @@ def Eliminar_User(User_Nombre,  db:Session = Depends(get_db)):
     db.commit()
     return{"Respuesta":"Usuario eleminado correctamente"}
 
-@router.patch('/{User_Nombre}')
+@router.patch('/{User_Nombre}', dependencies=[Depends(jwtBearer())])
 def Actualizar_User(User_Nombre:str, updateUser: UserUpdate, db: Session = Depends(get_db)):
         data = db.query(models.User).filter(models.User.User_Name == User_Nombre)
         if not data.first():    

@@ -3,6 +3,7 @@ from typing import List
 from urllib import response
 
 from fastapi import APIRouter, Depends
+from hackapi.auth.jwt_bearer import jwtBearer
 from hackapi.db import models
 from hackapi.db.database import get_db
 from hackapi.schemas import (UserBombillasHabitaciones,
@@ -16,13 +17,13 @@ router = APIRouter(
 
 
 
-@router.get('')
+@router.get('', dependencies=[Depends(jwtBearer())])
 def Obtener_Users(db:Session = Depends(get_db)):
     data = db.query(models.UserBombillasHabitaciones).all()
     return data
 
 
-@router.post('')
+@router.post('', dependencies=[Depends(jwtBearer())])
 def Crear_Users(UserBombillasHabitaciones:UserBombillasHabitaciones, db:Session = Depends(get_db)):
     bulb = UserBombillasHabitaciones.dict()
     nuevo_UserBombillasHabitaciones = models.UserBombillasHabitaciones (
@@ -35,7 +36,7 @@ def Crear_Users(UserBombillasHabitaciones:UserBombillasHabitaciones, db:Session 
     return{"Respuesta":"Habitacion creada correctamente"}
     
     
-@router.delete('/{Codigo_Habitacion}')
+@router.delete('/{Codigo_Habitacion}', dependencies=[Depends(jwtBearer())])
 def Eliminar_User(Codigo_Habitacion,  db:Session = Depends(get_db)):
     data = db.query(models.UserBombillasHabitaciones).filter(models.UserBombillasHabitaciones.Codigo_Habitacion == Codigo_Habitacion)
     if not data.first():
@@ -44,7 +45,7 @@ def Eliminar_User(Codigo_Habitacion,  db:Session = Depends(get_db)):
     db.commit()
     return{"Respuesta":"Usuario eleminado correctamente"}
 
-@router.patch('/{Codigo_Habitacion}')
+@router.patch('/{Codigo_Habitacion}', dependencies=[Depends(jwtBearer())])
 def Actualizar_User(Codigo_Habitacion:str, UserBombillasHabitacionesUpdate: UserBombillasHabitacionesUpdate, db: Session = Depends(get_db)):
         data = db.query(models.UserBombillasHabitacionesUpdate).filter(models.UserBombillasHabitacionesUpdate.Codigo_Habitacion == Codigo_Habitacion)
         if not data.first():    
@@ -53,7 +54,7 @@ def Actualizar_User(Codigo_Habitacion:str, UserBombillasHabitacionesUpdate: User
         db.commit()
         return {"Respuesta":"Usuario Actualizada Correctamente!"}
         
-@router.delete('/{Codigo_Bombilla}')
+@router.delete('/{Codigo_Bombilla}', dependencies=[Depends(jwtBearer())])
 def Eliminar_User(Codigo_Bombilla,  db:Session = Depends(get_db)):
     data = db.query(models.UserBombillasHabitaciones).filter(models.UserBombillasHabitaciones.Codigo_Bombilla == Codigo_Bombilla)
     if not data.first():
@@ -62,7 +63,7 @@ def Eliminar_User(Codigo_Bombilla,  db:Session = Depends(get_db)):
     db.commit()
     return{"Respuesta":"Usuario eleminado correctamente"}
 
-@router.patch('/{Codigo_Bombilla}')
+@router.patch('/{Codigo_Bombilla}', dependencies=[Depends(jwtBearer())])
 def Actualizar_User(Codigo_Bombilla:str, UserBombillasHabitacionesUpdate: UserBombillasHabitacionesUpdate, db: Session = Depends(get_db)):
         data = db.query(models.UserBombillasHabitacionesUpdate).filter(models.UserBombillasHabitacionesUpdate.Codigo_Bombilla == Codigo_Bombilla)
         if not data.first():    
